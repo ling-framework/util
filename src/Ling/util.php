@@ -7,7 +7,7 @@ namespace Ling;
 
 function session($key, $val = null) {
     $session = $_SESSION['LING_SESSION'];
-    if (null === $val) {
+    if ($val === null) {
         if ($session && isset($session[$key])) {
             return $session[$key];
         }
@@ -38,15 +38,15 @@ function dict($array, $key, $default = NULL) {
     return isset($array[$key]) ? $array[$key] : $default;
 }
 
-function getRealIPAddress(){
-    if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+function getRealIP(){
+    if (isset($_SERVER['HTTP_CLIENT_IP'])) {
         $ip = $_SERVER['HTTP_CLIENT_IP'];
-    } else if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+    } else if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
         $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
     } else {
         $ip = $_SERVER['REMOTE_ADDR'];
     }
-    if ($ip === '::1') {
+    if ($ip === '::1') { // ignore ipv6 local ip
         $ip = '127.0.0.1';
     }
     return $ip;
